@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Promedio — Tec21</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-contenedor-global">
+
+        <!-- TOPBAR INSTITUCIONAL -->
+        <header class="topbar">
+            <div class="topbar-brand">
+                <div class="topbar-logo-mark">TEC</div>
+                <div class="topbar-texto">
+                    <span class="topbar-nombre">Simulador Tec21</span>
+                    <span class="topbar-subtitulo">Tecnológico de Monterrey — Planificación Semestral</span>
+                </div>
+            </div>
+            <span class="topbar-badge">Modelo Tec21</span>
+        </header>
+
+        <div class="piso-superior">
+
+            <!-- PANEL IZQUIERDO -->
+            <aside class="panel-izquierdo">
+
+                <button id="btn-abrir-modal" class="btn-primario">+ Agregar Materia</button>
+
+                <!-- CRÉDITOS -->
+                <div class="card estado-creditos">
+                    <h3>Resumen de Créditos</h3>
+                    <div class="metrica">
+                        <span class="label">Créditos registrados</span>
+                        <span class="valor"><span id="total-creditos">0</span><span style="font-size:14px; color:var(--texto-mutado); font-weight:500"> / 18</span></span>
+                    </div>
+                    <div class="barra-creditos">
+                        <div class="barra-creditos-fill" id="barra-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="detalles-tipo">
+                        <span>Bloques: <strong id="count-bloque">0</strong>/3</span>
+                        <span>Optativas: <strong id="count-optativa">0</strong>/1</span>
+                    </div>
+                </div>
+
+                <!-- CALCULAR PROMEDIO -->
+                <div id="panel-calculo" class="card" style="display: none;">
+                    <button id="btn-calcular" class="btn-calcular">Calcular Promedio Actual</button>
+                    <div id="contenedor-resultado" class="resultado-box" style="display: none;">
+                        <h4>Promedio Semestral</h4>
+                        <div class="score" id="promedio-final">0.00</div>
+                    </div>
+                </div>
+
+                <!-- PREDICCIONES -->
+                <div id="panel-predicciones" class="card" style="display: none;">
+                    <h3>Asistente de Predicciones</h3>
+                    <span class="target-desc">Descubre cuánto necesitas obtener en tus materias pendientes para alcanzar tu meta.</span>
+                    <div class="form-group-inline">
+                        <label for="meta-promedio" style="color: var(--texto-mutado);">Meta de promedio:</label>
+                        <input type="number" id="meta-promedio" min="0" max="100" value="85">
+                    </div>
+                    <button id="btn-predecir" class="btn-secundario">Calcular Predicción</button>
+                    <div id="resultado-prediccion" class="prediccion-box"></div>
+                </div>
+
+                <div style="flex:1"></div>
+                <button id="btn-resetear" class="btn-peligro">Restablecer Semestre</button>
+            </aside>
+
+            <!-- PANEL DERECHO -->
+            <main class="panel-derecho">
+                <div id="vacio-state" class="vacio-mensaje">
+                    <div class="vacio-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                    </div>
+                    <h2>Tu semestre está vacío</h2>
+                    <p>Comienza agregando tus materias con el botón de la izquierda para simular escenarios de calificación.</p>
+                </div>
+
+                <div id="workspace-materias" style="display: none;">
+                    <div class="workspace-header">
+                        <h2>Materias del Semestre</h2>
+                        <span class="count-badge" id="count-materias-badge">0 materias</span>
+                    </div>
+                    <div id="lista-materias-cards" class="grid-materias"></div>
+                </div>
+            </main>
+
+        </div>
+
+        <!-- ESPACIO PUBLICITARIO -->
+        <footer class="espacio-publicitario">
+            <div class="carrusel-track">
+                <div class="anuncio-card"><img src="img/anuncio1.png" alt="Anuncio 1"></div>
+                <div class="anuncio-card"><img src="img/anuncio1.png" alt="Anuncio 2"></div>
+                <div class="anuncio-card"><img src="img/anuncio1.png" alt="Anuncio 3"></div>
+                <div class="anuncio-card"><img src="img/anuncio1.png" alt="Anuncio 4"></div>
+                <div class="anuncio-card"><img src="img/anuncio1.png" alt="Anuncio 5"></div>
+                <div class="anuncio-card"><img src="img/anuncio1.png" alt="Anuncio 1"></div>
+                <div class="anuncio-card"><img src="img/anuncio1.png" alt="Anuncio 2"></div>
+                <div class="anuncio-card"><img src="img/anuncio1.png" alt="Anuncio 3"></div>
+                <div class="anuncio-card"><img src="img/anuncio1.png" alt="Anuncio 4"></div>
+                <div class="anuncio-card"><img src="img/anuncio1.png" alt="Anuncio 5"></div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal-formulario" class="modal">
+        <div class="modal-content">
+            <span id="btn-cerrar-modal" class="close-button">&times;</span>
+            <div class="modal-header">
+                <h2>Registrar Nueva Materia</h2>
+                <p>Completa los campos para agregar la materia a tu semestre.</p>
+            </div>
+            <form id="materia-form">
+                <div class="form-group">
+                    <label for="nombre">Nombre de la materia</label>
+                    <input type="text" id="nombre" required placeholder="Ej. Enfoque Íntegro de la Innovación">
+                </div>
+                <div class="form-group">
+                    <label for="tipo">Tipo de materia</label>
+                    <select id="tipo" required>
+                        <option value="" disabled selected>Selecciona el tipo</option>
+                        <option value="optativa">Optativa — 3 créditos</option>
+                        <option value="bloque">Bloque — 3 créditos</option>
+                        <option value="semana5">Materia de 5 semanas — 1 crédito</option>
+                        <option value="semana10">Materia de 10 semanas — 2 créditos</option>
+                    </select>
+                </div>
+                <button type="submit" id="btn-guardar">Agregar al Semestre</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
